@@ -1,0 +1,107 @@
+PROGRAM:
+
+#include <stdio.h>
+#define max 5
+
+int myqueue[max];
+int r = -1;
+int f = -1;
+
+void enqueue();
+void dequeue();
+void display();
+
+void main()
+{
+    int choice;
+    while(1) 
+    {
+        printf("Enter 1 for enqueue, 2 for dequeue, 3 for display, 4 for exit\n");
+        scanf("%d", &choice);
+
+        switch(choice)
+        {
+            case 1:
+                enqueue();
+                break;
+            case 2:
+                dequeue();
+                break;
+            case 3:
+                display();
+                break;
+            case 4:
+                printf("Exiting...\n");
+                return; // Exit the program
+            default:
+                printf("Invalid choice\n");
+                break;
+        }
+    }
+}
+
+void enqueue()
+{
+    int item;
+    printf("Enter the element you want to insert\n");
+    scanf("%d", &item);
+
+    if(r == max - 1)
+    {
+        printf("Overflow\n");
+    }
+    else
+    {
+        if(f == -1 && r == -1)
+        {
+            f = 0;
+            r = 0;
+        }
+        else
+        {
+            r = r + 1;
+        }
+        myqueue[r] = item;
+        printf("Inserted\n");
+    }
+}
+
+void dequeue()
+{
+    if(f == -1)
+    {
+        printf("Underflow\n");
+    }
+    else
+    {
+        printf("Deleted %d\n", myqueue[f]);
+        
+        if(f == r)
+        {
+            f = -1;
+            r = -1;
+        }
+        else
+        {
+            f = f + 1;
+        }
+    }
+}
+
+void display()
+{
+	int i;
+    if(r == -1)
+    {
+        printf("Queue is empty\n");
+    }
+    else
+    {
+        printf("Values: ");
+        for(i = f; i <= r; i++)
+        {
+            printf("%d ", myqueue[i]);
+        }
+        printf("\n");
+    }
+}

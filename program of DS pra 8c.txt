@@ -1,0 +1,115 @@
+PROGRAM:
+
+#include <stdio.h>
+#include <stdlib.h>
+
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+struct Node* front = NULL;
+struct Node* rear = NULL;
+
+
+void enqueue() {
+    struct Node* ptr = (struct Node*)malloc(sizeof(struct Node));
+    int item;
+
+    if (ptr == NULL) {
+        printf("\nOVERFLOW\n");
+        return;
+    }
+
+    printf("\nEnter value: ");
+    scanf("%d", &item);
+    ptr->data = item;
+
+    if (front == NULL) {
+        front = ptr;
+        rear = ptr;
+        ptr->next = front; 
+    } else {
+        rear->next = ptr;
+        rear = ptr;
+        rear->next = front; 
+    }
+
+    printf("\nValue inserted: %d\n", item);
+}
+
+
+void dequeue() {
+    struct Node* ptr;
+
+    if (front == NULL) {
+        printf("\nUNDERFLOW\n");
+        return;
+    }
+
+    if (front == rear) {
+        // Single element case
+        ptr = front;
+        front = NULL;
+        rear = NULL;
+    } else {
+        ptr = front;
+        front = front->next;
+        rear->next = front; 
+    }
+
+    printf("\nValue deleted: %d\n", ptr->data);
+    free(ptr);
+}
+
+
+void display() {
+    struct Node* ptr = front;
+
+    if (front == NULL) {
+        printf("\nQueue is empty\n");
+        return;
+    }
+
+    printf("\nPrinting values:\n");
+    do {
+        printf("%d\n", ptr->data);
+        ptr = ptr->next;
+    } while (ptr != front); // Loop until we reach the start again
+}
+
+
+int main() {
+    int choice;
+
+    do {
+        printf("\nCircular Queue Menu:\n");
+        printf("1. Add (Enqueue)\n");
+        printf("2. Delete (Dequeue)\n");
+        printf("3. Display\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                enqueue();
+                break;
+            case 2:
+                dequeue();
+                break;
+            case 3:
+                display();
+                break;
+            case 4:
+                printf("Exiting program.\n");
+                break;
+            default:
+                printf("Invalid choice! Try again.\n");
+        }
+    } while (choice != 4);
+
+    return 0;
+}
+
